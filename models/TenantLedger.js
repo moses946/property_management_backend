@@ -17,8 +17,8 @@ const tenantLedgerSchema = new mongoose.Schema({
 
 // Method to calculate balance based on transactions
 tenantLedgerSchema.methods.calculateBalance = function () {
-  this.balance = this.transactions.reduce((acc, transaction) => {
-    return transaction.type === 'charge' ? acc + transaction.amount : acc - transaction.amount;
+  this.balance = this.transactions.reduce((accBal, transaction) => {
+    return transaction.type === 'charge' ? accBal + transaction.amount : acc - transaction.amount;
   }, 0);
   return this.balance;
 };

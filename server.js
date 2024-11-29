@@ -7,6 +7,7 @@ const buildingRoutes = require('./routes/buildingRoutes');
 const unitRoutes = require('./routes/unitRoutes');
 const tenantRoutes = require('./routes/tenantRoutes');
 const tenantLedgerRoutes = require('./routes/tenantLedgerRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 dotenv.config();
 
@@ -24,7 +25,6 @@ mongoose.connect(process.env.DB_URI, {
   .catch(err => console.log('Failed to connect to MongoDB:', err));
 
 // Routes
-const adminRoutes = require('./routes/adminRoutes');
 app.use('/api/admin', adminRoutes);
 app.use('/api/buildings', buildingRoutes);
 app.use('/api/units', unitRoutes);

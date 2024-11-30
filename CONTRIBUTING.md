@@ -50,7 +50,7 @@ This document outlines how we will collaborate effectively on **[Project Name]**
    - Tag the other collaborator for a review before merging.
 
 4. **Commit Messages**:
-   - Use meaningful and consistent commit messages.
+   - Use meaningful and consistent commit message
    - Format: `<type>: <description>`
      - **feat**: A new feature.
      - **fix**: A bug fix.

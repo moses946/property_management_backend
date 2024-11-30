@@ -16,11 +16,13 @@ exports.signup = async (req, res) => {
         await admin.save();
         
         // Create JWT token
-        const token = jwt.sign({ adminId: admin._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const accessToken = jwt.sign({ adminId: admin._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const refreshToken = jwt.sign({ adminId: admin._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
         
         res.status(201).json({
           message: 'Admin created successfully!',
-          token,
+          accessToken,
+          refreshToken,
           adminId: admin._id.toString(),
           adminData: {
             id: admin._id.toString(),
@@ -47,12 +49,13 @@ exports.login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
-
-    const token = jwt.sign({ adminId: admin._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     
+    const accessToken = jwt.sign({ adminId: admin._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const RefreshToken = jwt.sign({ adminId: admin._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
     // Return all required data
     res.status(200).json({
-      token,
+      accessToken,
+      refreshToken,
       adminId: admin._id.toString(),
       adminData: {
         id: admin._id.toString(),

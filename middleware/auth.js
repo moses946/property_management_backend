@@ -2,9 +2,10 @@ const jwt = require('jsonwebtoken');
 const Admin = require('../models/Admin');
 const Tenant = require('../models/Tenant');
 
-const auth = async (req, res, next) => {
+exports.verifyToken = async (req, res, next) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    if(!token) return res.status(401).json({message:"Unauthorized"})
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Check if it's an admin token
@@ -34,4 +35,25 @@ const auth = async (req, res, next) => {
   }
 };
 
-module.exports = auth; 
+// a general auth middleware for protected routes to check is a valid token is provided
+exports.checkTokenValidity = async (req, res, next) => {
+      console.log("Hit the main auth middleware")
+      // check if token is provided; authorization headers set correctly
+      const accessToken = req.headers['authorization']?.split(" ")[1]
+      if(!accessToken){
+        res.status(401).json()
+        
+      }else{
+        // check validity of the token
+        try{
+          // if the token is expired or not real, the function throws an error
+          const decodedToken =  jwt.verify(accessToken, proces.env.JWT_SECRET)
+          req.user.isAuthenticated = true
+          next()
+        }catch(e){
+          console.log(`Error in general auth middleware: ${e}`)
+          res.status(401).json()          
+        }
+      }
+
+}

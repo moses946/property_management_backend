@@ -19,6 +19,6 @@ router.delete('/:id', tenantController.deleteTenant);
 
 
 // tenant routes
-router.get('/:id/issues', tenantIssueController.getTenantIssues)
+// router.get('/:id/issues', tenantIssueController.getTenantIssues)
 
 module.exports = router;
